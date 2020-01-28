@@ -5,12 +5,13 @@ namespace SomethingSpecific.ProtoNinja
 {
     public class Caterpillar : MonoBehaviour
     {
+        public float FreezeTime = 0.5f;
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(typeof(Player), out var comp) &&
                 comp is Player player)
             {
-                player.Freeze();
+                player.Freeze(FreezeTime);
                 Destroy(gameObject);
             }
         }

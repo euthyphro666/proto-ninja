@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace SomethingSpecific.ProtoNinja
 {
+    public enum ProjectileType
+    {
+        Normal,
+        Fanout,
+        Rapid
+    }
     public class Projectile : MonoBehaviour
     {
         public int Owner;
         public Vector3 Delta;
+        public float RotationSpeed = 5f;
 
         private float LifeTime = 2f;
         private float LifeTimer;
@@ -17,6 +24,7 @@ namespace SomethingSpecific.ProtoNinja
             if (LifeTimer >= LifeTime)
                 Destroy(gameObject);
             transform.Translate(Delta, Space.World);
+            transform.Rotate(0, RotationSpeed * Time.deltaTime, 0);
         }
 
         private void OnTriggerEnter(Collider other)
