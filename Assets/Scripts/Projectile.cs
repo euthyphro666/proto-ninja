@@ -1,38 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Projectile : MonoBehaviour
+namespace SomethingSpecific.ProtoNinja
 {
-    public string Owner;
-    public Vector3 Delta;
-
-    private float LifeTime = 2f;
-    private float LifeTimer;
-
-    void Update()
+    public class Projectile : MonoBehaviour
     {
-        LifeTimer += Time.deltaTime;
-        if (LifeTimer >= LifeTime)
-            Destroy(gameObject);
-        transform.Translate(Delta, Space.World);
-    }
+        public int Owner;
+        public Vector3 Delta;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.TryGetComponent(typeof(Player), out var comp) &&
-            comp is Player player)
+        private float LifeTime = 2f;
+        private float LifeTimer;
+
+        void Update()
         {
-            if (player.Id != Owner)
-            {
-                Debug.Log("Hit!");
+            LifeTimer += Time.deltaTime;
+            if (LifeTimer >= LifeTime)
                 Destroy(gameObject);
-                Destroy(other.gameObject);
-            }
+            transform.Translate(Delta, Space.World);
         }
-        else
+
+        private void OnTriggerEnter(Collider other)
         {
-            Destroy(gameObject);
+            if (other.TryGetComponent(typeof(Player), out var comp) &&
+                comp is Player player)
+            {
+                if (player.Id != Owner)
+                {
+                    Debug.Log("Hit!");
+                    Destroy(gameObject);
+                    Destroy(other.gameObject);
+                }
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

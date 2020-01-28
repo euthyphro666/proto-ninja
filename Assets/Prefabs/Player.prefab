@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 8001287564509195439}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,11 +126,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a897c7c4bc21a64cbed07c3d466764b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: P1
+  Id: 0
   Speed: 15
   ProjectilePrefab: {fileID: 3237908928197813824, guid: f7aac82725b8b2749a7c09d3e602aa53,
     type: 3}
+  FreezeTime: 1
   ShootTime: 0.25
+  ProjectileSpeed: 0.5
 --- !u!54 &4558794306430359497
 Rigidbody:
   m_ObjectHideFlags: 0

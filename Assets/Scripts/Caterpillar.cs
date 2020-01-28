@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Caterpillar : MonoBehaviour
+namespace SomethingSpecific.ProtoNinja
 {
-    private void OnTriggerEnter(Collider other)
+    public class Caterpillar : MonoBehaviour
     {
-        if (other.TryGetComponent(typeof(Player), out var comp) &&
-            comp is Player player)
+        private void OnTriggerEnter(Collider other)
         {
-            player.Freeze();
-            Destroy(gameObject);
+            if (other.TryGetComponent(typeof(Player), out var comp) &&
+                comp is Player player)
+            {
+                player.Freeze();
+                Destroy(gameObject);
+            }
         }
     }
 }
