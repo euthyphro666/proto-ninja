@@ -13,6 +13,9 @@ namespace SomethingSpecific.ProtoNinja
         public GameObject ProjectilePrefab;
         public float ProjectileSpeed = 0.5f;
         public float SlowDownRate = 0.5f;
+        public float DodgeRate = 2f;
+        public float DodgeCooldown = 1f;
+
 
 
         private Vector3 LookVector;
@@ -24,6 +27,8 @@ namespace SomethingSpecific.ProtoNinja
         private bool Slowed;
         private float LastLX;
         private float LastLY;
+        private float LastMX;
+        private float LastMY;
 
         private Rewired.Player Controller;
 
@@ -50,12 +55,19 @@ namespace SomethingSpecific.ProtoNinja
             // Move vector - simply translate by this
             var mx = Controller.GetAxis("MoveX");
             var my = Controller.GetAxis("MoveY");
+            if ((mx != 0 || my != 0) && DodgeTimer <= 0)
+            {
+                LastMX = mx;
+                LastMY = my;
+            }
+
+            var speedModifier = Speed * Time.deltaTime *
+                (Slowed ? SlowDownRate : 1f) *
+                (DodgeTimer > 0 ? DodgeRate : 1f);
             MoveVector.Set(
-               transform.position.x +
-                (mx * Speed * Time.deltaTime * (Slowed ? SlowDownRate : 1f)),
+               transform.position.x + ((DodgeTimer > 0 ? LastMX : mx) * speedModifier),
                transform.position.y,
-               transform.position.z +
-                (my * Speed * Time.deltaTime) * (Slowed ? SlowDownRate : 1f));
+               transform.position.z + ((DodgeTimer > 0 ? LastMY : my) * speedModifier));
             Body.MovePosition(MoveVector);
             Body.velocity = Vector3.zero;
 
@@ -81,12 +93,16 @@ namespace SomethingSpecific.ProtoNinja
 
         private void ProcessDodge()
         {
-            if (DodgeTimer <= 0)
+            if (DodgeTimer <= -DodgeCooldown)
             {
                 if (Controller.GetButton("Dodge"))
                 {
-
+                    DodgeTimer = 0.125f;
                 }
+            }
+            else
+            {
+                DodgeTimer -= Time.deltaTime;
             }
         }
         private void CheckToggleAttack()

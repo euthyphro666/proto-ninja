@@ -6,6 +6,18 @@ ModelImporter:
   - first:
       74: 4781951162920444690
     second: Armature|ArmatureAction
+  - first:
+      74: 6059336001588132254
+    second: Armature|Die
+  - first:
+      74: -8945691123924629249
+    second: Armature|Idle
+  - first:
+      74: -7551964380084998518
+    second: Armature|Run
+  - first:
+      74: 9083654474561383684
+    second: Armature|Throw
   externalObjects: {}
   materials:
     importMaterials: 1

@@ -52,6 +52,8 @@ MonoBehaviour:
     type: 3}
   ProjectileSpeed: 0.5
   SlowDownRate: 0.25
+  DodgeRate: 4
+  DodgeCooldown: 0.35
 --- !u!54 &4558794306430359497
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -93,6 +95,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ninja
       objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: 03dbde422c893ce40a4a54de2ca394ec,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 50c0c727a0f022f4dbd00c868e2897ae, type: 2}
     - target: {fileID: -4216859302048453862, guid: 03dbde422c893ce40a4a54de2ca394ec,
         type: 3}
       propertyPath: m_LocalPosition.x
