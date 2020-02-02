@@ -33,7 +33,32 @@ ModelImporter:
   - first:
       74: 8039437375205953329
     second: Armature|SunAction
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black
+    second: {fileID: 2100000, guid: 46c60b84a2b811c479217b92c161821e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BlackShiny
+    second: {fileID: 2100000, guid: 037c890395dc8974da19c8c5a3a4ec95, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Chrome
+    second: {fileID: 2100000, guid: fcbf000274afa264284935d2b699f7fa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Grey
+    second: {fileID: 2100000, guid: df886e840b0a7454cb5190b914a42eaf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Red
+    second: {fileID: 2100000, guid: 7a82a6c1a5161d64998c54e13150f1b9, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
