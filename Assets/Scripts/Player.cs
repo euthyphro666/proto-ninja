@@ -58,8 +58,13 @@ namespace SomethingSpecific.ProtoNinja
             var my = Controller.GetAxis("MoveY");
             if ((mx != 0 || my != 0) && DodgeTimer <= 0)
             {
+                Anim.SetBool("IsRunning", true);
                 LastMX = mx;
                 LastMY = my;
+            }
+            else if (mx == 0 && my == 0)
+            {
+                Anim.SetBool("IsRunning", false);
             }
 
             var speedModifier = Speed * Time.deltaTime *
@@ -99,7 +104,7 @@ namespace SomethingSpecific.ProtoNinja
                 if (Controller.GetButton("Dodge"))
                 {
                     DodgeTimer = 0.125f;
-                    Anim.SetTrigger("HasDodged");
+                    Anim.SetTrigger("HasDashed");
                 }
             }
             else
@@ -107,7 +112,7 @@ namespace SomethingSpecific.ProtoNinja
                 DodgeTimer -= Time.deltaTime;
             }
         }
-        
+
         private void CheckToggleAttack()
         {
             // Toggle Attack
@@ -121,7 +126,7 @@ namespace SomethingSpecific.ProtoNinja
             }
         }
 
-        
+
         private void ProcessAttack()
         {
             // Attack
