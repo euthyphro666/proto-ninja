@@ -84,24 +84,39 @@ namespace SomethingSpecific.ProtoNinja
                 transform.position.x + ((Dodging ? LastMX : mx) * speedModifier),
                 transform.position.y,
                 transform.position.z + ((Dodging ? LastMY : my) * speedModifier));
-            
+
             Body.MovePosition(MoveVector);
             Body.velocity = Vector3.zero;
 
             // Look vector - simply look at our position translated by the look vector
             var lx = Controller.GetAxis("LookX");
             var ly = Controller.GetAxis("LookY");
-            LookVector.Set(
-                transform.position.x + lx,
-                transform.position.y,
-                transform.position.z + ly);
-            transform.LookAt(LookVector);
-
             if (lx != 0 || ly != 0)
             {
                 LastLX = lx;
                 LastLY = ly;
+                // If we're looking somewhere look there
+                LookVector.Set(
+                    transform.position.x + lx,
+                    transform.position.y,
+                    transform.position.z + ly);
+                transform.LookAt(LookVector);
             }
+            else
+            {
+                // If we're not looking somewhere and we're moving look where we're moving.
+                if (mx != 0 || my != 0)
+                {
+                    LastLX = mx;
+                    LastLY = my;
+                    LookVector.Set(
+                        transform.position.x + mx,
+                        transform.position.y,
+                        transform.position.z + my);
+                    transform.LookAt(LookVector);
+                }
+            }
+
 
             ProcessDodge();
             // Only allow attacking if we're not blocking
@@ -124,13 +139,13 @@ namespace SomethingSpecific.ProtoNinja
             CanDodge = false;
             Dodging = true;
             Anim.SetTrigger("HasDashed");
-            
+
             Debug.Log($"Player {Id} Dodging");
             yield return new WaitForSeconds(DodgeDuration);
-            
+
             Debug.Log($"Player {Id} Stopped Dodging");
             Dodging = false;
-            
+
             yield return new WaitForSeconds(DodgeCooldown);
             CanDodge = true;
             Debug.Log($"Player {Id} Can Dodge Again");
@@ -164,16 +179,16 @@ namespace SomethingSpecific.ProtoNinja
             Debug.Log($"Player {Id} Blocking");
             Blocking = true;
             CanBlock = false;
-            
+
             // Wait the blocking duration and then disable it
             yield return new WaitForSeconds(BlockDuration);
             Debug.Log($"Player {Id} Stopped Blocking");
             Blocking = false;
-            
+
             // Wait the cooldown before block can be used again
             yield return new WaitForSeconds(BlockCooldown);
             CanBlock = true;
-            
+
             Debug.Log($"Player {Id} Can Block Again");
         }
 
