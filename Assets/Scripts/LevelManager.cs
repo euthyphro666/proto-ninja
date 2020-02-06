@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +13,7 @@ namespace SomethingSpecific.ProtoNinja
 
         public GameObject PlayerPrefab;
         public int PlayerCount = 1;
+        public int NewGameCountdownTime = 3;
         private bool ActiveGame = false;
         private IList<Rewired.Player> Controllers;
         private Text Status;
@@ -27,6 +29,16 @@ namespace SomethingSpecific.ProtoNinja
 
         void BeginLevel()
         {
+            StartCoroutine(BeginCountdown(NewGameCountdownTime));
+        }
+
+        private IEnumerator BeginCountdown(int countdownStartTime)
+        {
+            for(var i = 0; i < countdownStartTime; i++) {
+                Status.text = $"{Mathf.RoundToInt(countdownStartTime - i)}!";
+                yield return new WaitForSeconds(1);
+            }
+            
             ActiveGame = true;
             Status.text = "";
             SpawnPlayers();
