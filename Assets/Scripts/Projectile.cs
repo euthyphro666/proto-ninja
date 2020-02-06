@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 namespace SomethingSpecific.ProtoNinja
 {
     public enum ProjectileType
@@ -9,6 +7,7 @@ namespace SomethingSpecific.ProtoNinja
         Fanout,
         Rapid
     }
+    
     public class Projectile : MonoBehaviour
     {
         public int Owner;
@@ -18,7 +17,7 @@ namespace SomethingSpecific.ProtoNinja
         private float LifeTime = 2f;
         private float LifeTimer;
 
-        void Update()
+        private void Update()
         {
             LifeTimer += Time.deltaTime;
             if (LifeTimer >= LifeTime)
@@ -32,12 +31,13 @@ namespace SomethingSpecific.ProtoNinja
             if (other.TryGetComponent(typeof(Player), out var comp) &&
                 comp is Player player)
             {
-                if (player.Id != Owner)
-                {
-                    Debug.Log("Hit!");
-                    Destroy(gameObject);
-                    Destroy(other.gameObject);
-                }
+                if (player.Id == Owner) return;
+                
+                Debug.Log("Hit!");
+                Destroy(gameObject);
+                
+                // could add a damage value here later if we want
+                player.ProcessHit(other.gameObject);
             }
             else
             {

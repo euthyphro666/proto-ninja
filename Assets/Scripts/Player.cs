@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 
@@ -15,7 +14,10 @@ namespace SomethingSpecific.ProtoNinja
         public float SlowDownRate = 0.5f;
         public float DodgeRate = 2f;
         public float DodgeCooldown = 1f;
+        public float BlockCooldown = 1f;
 
+        [SerializeField] 
+        private bool DebugToggleShooting;
 
         private Vector3 LookVector;
         private Vector3 MoveVector;
@@ -23,7 +25,9 @@ namespace SomethingSpecific.ProtoNinja
         private Animator Anim;
         private float ShootTimer;
         private float DodgeTimer;
+        private float BlockTimer;
         private float FreezeTimer;
+        private bool Blocking;
         private bool Slowed;
         private float LastLX;
         private float LastLY;
@@ -34,6 +38,7 @@ namespace SomethingSpecific.ProtoNinja
 
         private ProjectileType FireMode;
 
+        
         private void Start()
         {
             Controller = ReInput.players.GetPlayer(Id);
@@ -43,6 +48,7 @@ namespace SomethingSpecific.ProtoNinja
             Body = GetComponent<Rigidbody>();
             LastLY = 1f;
             FireMode = ProjectileType.Normal;
+            Blocking = false;
             Anim = GetComponentInChildren<Animator>();
         }
 
@@ -93,7 +99,10 @@ namespace SomethingSpecific.ProtoNinja
             }
 
             ProcessDodge();
-            ProcessAttack();
+            // Only allow attacking if we're not blocking
+            ProcessBlock();
+            if(!Blocking)
+                ProcessAttack();
             CheckToggleAttack();
         }
 
@@ -126,13 +135,35 @@ namespace SomethingSpecific.ProtoNinja
             }
         }
 
-
+        /// <summary>
+        /// Enables the blocking state and starts a cooldown
+        /// </summary>
+        private void ProcessBlock()
+        {
+            if (!Blocking)
+            {
+                // Check if we're blocking
+                if (Controller.GetButtonDown("Block"))
+                {
+                    Debug.Log($"Player {Id} Blocking");
+                    BlockTimer = BlockCooldown;
+                    Blocking = true;
+                }
+            }
+            else
+            {
+                BlockTimer -= Time.deltaTime;
+                if(BlockTimer < 0) // This does let you block immediately after again
+                    Blocking = false;
+            }
+        }
+        
         private void ProcessAttack()
         {
             // Attack
             if (ShootTimer <= 0)
             {
-                if (Controller.GetAxis("RangedAttack") > 0)
+                if (Controller.GetAxis("RangedAttack") > 0 || DebugToggleShooting)
                 {
                     Anim.SetTrigger("HasThrown");
                     var shootVectors = new List<Vector3>();
@@ -189,6 +220,15 @@ namespace SomethingSpecific.ProtoNinja
             {
                 ShootTimer -= Time.deltaTime;
             }
+        }
+
+        /// <summary>
+        /// Handles the player being hit
+        /// </summary>
+        public void ProcessHit(GameObject parent)
+        {
+            if(!Blocking)
+                Destroy(parent);
         }
 
         public void NormalSpeed()

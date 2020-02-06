@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Rewired;
 using System.Linq;
 
 namespace SomethingSpecific.ProtoNinja
 {
     public class LevelManager : MonoBehaviour
     {
-
         public GameObject PlayerPrefab;
         public int PlayerCount = 1;
         public int NewGameCountdownTime = 3;
         private bool ActiveGame = false;
         private IList<Rewired.Player> Controllers;
         private Text Status;
-
-
+        
         void Start()
         {
             Controllers = Rewired.ReInput.players.AllPlayers;
