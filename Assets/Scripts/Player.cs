@@ -14,6 +14,7 @@ namespace SomethingSpecific.ProtoNinja
         public float SlowDownRate = 0.5f;
         public float DodgeRate = 2f;
         public float DodgeCooldown = 1f;
+        public float DodgeDuration = 0.125f;
         public float BlockCooldown = 1f;
         public float BlockDuration = 1f;
 
@@ -24,10 +25,11 @@ namespace SomethingSpecific.ProtoNinja
         private Rigidbody Body;
         private Animator Anim;
         private float ShootTimer;
-        private float DodgeTimer;
         private float FreezeTimer;
         private bool Blocking;
         private bool CanBlock;
+        private bool Dodging;
+        private bool CanDodge;
         private bool Slowed;
         private float LastLX;
         private float LastLY;
@@ -48,8 +50,8 @@ namespace SomethingSpecific.ProtoNinja
             Body = GetComponent<Rigidbody>();
             LastLY = 1f;
             FireMode = ProjectileType.Normal;
-            Blocking = false;
-            CanBlock = true;
+            Blocking = Dodging = false;
+            CanBlock = CanDodge = true;
             Anim = GetComponentInChildren<Animator>();
         }
 
@@ -64,7 +66,7 @@ namespace SomethingSpecific.ProtoNinja
             // Move vector - simply translate by this
             var mx = Controller.GetAxis("MoveX");
             var my = Controller.GetAxis("MoveY");
-            if ((mx != 0 || my != 0) && DodgeTimer <= 0)
+            if ((mx != 0 || my != 0) && !Dodging)
             {
                 Anim.SetBool("IsRunning", true);
                 LastMX = mx;
@@ -77,11 +79,12 @@ namespace SomethingSpecific.ProtoNinja
 
             var speedModifier = Speed * Time.deltaTime *
                                 (Slowed ? SlowDownRate : 1f) *
-                                (DodgeTimer > 0 ? DodgeRate : 1f);
+                                (Dodging ? DodgeRate : 1f);
             MoveVector.Set(
-                transform.position.x + ((DodgeTimer > 0 ? LastMX : mx) * speedModifier),
+                transform.position.x + ((Dodging ? LastMX : mx) * speedModifier),
                 transform.position.y,
-                transform.position.z + ((DodgeTimer > 0 ? LastMY : my) * speedModifier));
+                transform.position.z + ((Dodging ? LastMY : my) * speedModifier));
+            
             Body.MovePosition(MoveVector);
             Body.velocity = Vector3.zero;
 
@@ -110,18 +113,27 @@ namespace SomethingSpecific.ProtoNinja
 
         private void ProcessDodge()
         {
-            if (DodgeTimer <= -DodgeCooldown)
+            if (CanDodge && Controller.GetButton("Dodge"))
             {
-                if (Controller.GetButton("Dodge"))
-                {
-                    DodgeTimer = 0.125f;
-                    Anim.SetTrigger("HasDashed");
-                }
+                StartCoroutine(PerformDodge());
             }
-            else
-            {
-                DodgeTimer -= Time.deltaTime;
-            }
+        }
+
+        private IEnumerator PerformDodge()
+        {
+            CanDodge = false;
+            Dodging = true;
+            Anim.SetTrigger("HasDashed");
+            
+            Debug.Log($"Player {Id} Dodging");
+            yield return new WaitForSeconds(DodgeDuration);
+            
+            Debug.Log($"Player {Id} Stopped Dodging");
+            Dodging = false;
+            
+            yield return new WaitForSeconds(DodgeCooldown);
+            CanDodge = true;
+            Debug.Log($"Player {Id} Can Dodge Again");
         }
 
         private void CheckToggleAttack()

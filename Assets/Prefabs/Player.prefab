@@ -53,7 +53,11 @@ MonoBehaviour:
   ProjectileSpeed: 0.5
   SlowDownRate: 0.25
   DodgeRate: 4
-  DodgeCooldown: 0.35
+  DodgeCooldown: 1
+  DodgeDuration: 0.125
+  BlockCooldown: 1
+  BlockDuration: 1
+  DebugToggleShooting: 0
 --- !u!54 &4558794306430359497
 Rigidbody:
   m_ObjectHideFlags: 0
