@@ -34,7 +34,7 @@ namespace SomethingSpecific.ProtoNinja
 
         private ProjectileType FireMode;
 
-        void Start()
+        private void Start()
         {
             Controller = ReInput.players.GetPlayer(Id);
             ShootTimer = 0;
@@ -46,7 +46,7 @@ namespace SomethingSpecific.ProtoNinja
             Anim = GetComponentInChildren<Animator>();
         }
 
-        void Update()
+        private void Update()
         {
             if (FreezeTimer > 0)
             {
@@ -107,6 +107,7 @@ namespace SomethingSpecific.ProtoNinja
                 DodgeTimer -= Time.deltaTime;
             }
         }
+        
         private void CheckToggleAttack()
         {
             // Toggle Attack
@@ -119,6 +120,8 @@ namespace SomethingSpecific.ProtoNinja
                         ProjectileType.Normal;
             }
         }
+
+        
         private void ProcessAttack()
         {
             // Attack
