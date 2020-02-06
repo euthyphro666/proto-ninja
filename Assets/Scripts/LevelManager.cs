@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,14 +15,15 @@ namespace SomethingSpecific.ProtoNinja
         private bool ActiveGame = false;
         private IList<Rewired.Player> Controllers;
         private Text Status;
-        
+        private HudManager Hud;
+
         void Start()
         {
+            Hud = FindObjectOfType<HudManager>();
             Controllers = Rewired.ReInput.players.AllPlayers;
             Status = GameObject.Find("StatusMessage").GetComponent<Text>();
             Status.text = "Press 'Start' to begin.";
         }
-
 
         void BeginLevel()
         {
@@ -30,14 +32,16 @@ namespace SomethingSpecific.ProtoNinja
 
         private IEnumerator BeginCountdown(int countdownStartTime)
         {
-            for(var i = 0; i < countdownStartTime; i++) {
+            for (var i = 0; i < countdownStartTime; i++)
+            {
                 Status.text = $"{Mathf.RoundToInt(countdownStartTime - i)}!";
                 yield return new WaitForSeconds(1);
             }
-            
+
             ActiveGame = true;
             Status.text = "";
             SpawnPlayers();
+            Hud.InitPlayerInfo(PlayerCount);
         }
 
         void SpawnPlayers()

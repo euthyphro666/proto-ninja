@@ -17,6 +17,7 @@ namespace SomethingSpecific.ProtoNinja
         public float DodgeDuration = 0.125f;
         public float BlockCooldown = 1f;
         public float BlockDuration = 1f;
+        public float MaxHealth = 100f;
 
         [SerializeField] private bool DebugToggleShooting;
 
@@ -24,6 +25,7 @@ namespace SomethingSpecific.ProtoNinja
         private Vector3 MoveVector;
         private Rigidbody Body;
         private Animator Anim;
+        private float Health;
         private float ShootTimer;
         private float FreezeTimer;
         private bool Blocking;
@@ -37,14 +39,13 @@ namespace SomethingSpecific.ProtoNinja
         private float LastMY;
 
         private Rewired.Player Controller;
-
         private ProjectileType FireMode;
-
 
         private void Start()
         {
             Controller = ReInput.players.GetPlayer(Id);
             ShootTimer = 0;
+            Health = MaxHealth;
             LookVector = new Vector3();
             MoveVector = new Vector3();
             Body = GetComponent<Rigidbody>();
