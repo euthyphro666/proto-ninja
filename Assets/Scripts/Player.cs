@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 
@@ -6,7 +7,6 @@ namespace SomethingSpecific.ProtoNinja
 {
     public class Player : MonoBehaviour
     {
-
         public int Id = 0;
         public float Speed = 5f;
         public GameObject ProjectilePrefab;
@@ -15,9 +15,9 @@ namespace SomethingSpecific.ProtoNinja
         public float DodgeRate = 2f;
         public float DodgeCooldown = 1f;
         public float BlockCooldown = 1f;
+        public float BlockDuration = 1f;
 
-        [SerializeField] 
-        private bool DebugToggleShooting;
+        [SerializeField] private bool DebugToggleShooting;
 
         private Vector3 LookVector;
         private Vector3 MoveVector;
@@ -25,9 +25,9 @@ namespace SomethingSpecific.ProtoNinja
         private Animator Anim;
         private float ShootTimer;
         private float DodgeTimer;
-        private float BlockTimer;
         private float FreezeTimer;
         private bool Blocking;
+        private bool CanBlock;
         private bool Slowed;
         private float LastLX;
         private float LastLY;
@@ -38,7 +38,7 @@ namespace SomethingSpecific.ProtoNinja
 
         private ProjectileType FireMode;
 
-        
+
         private void Start()
         {
             Controller = ReInput.players.GetPlayer(Id);
@@ -49,6 +49,7 @@ namespace SomethingSpecific.ProtoNinja
             LastLY = 1f;
             FireMode = ProjectileType.Normal;
             Blocking = false;
+            CanBlock = true;
             Anim = GetComponentInChildren<Animator>();
         }
 
@@ -59,6 +60,7 @@ namespace SomethingSpecific.ProtoNinja
                 FreezeTimer -= Time.deltaTime;
                 return;
             }
+
             // Move vector - simply translate by this
             var mx = Controller.GetAxis("MoveX");
             var my = Controller.GetAxis("MoveY");
@@ -74,12 +76,12 @@ namespace SomethingSpecific.ProtoNinja
             }
 
             var speedModifier = Speed * Time.deltaTime *
-                (Slowed ? SlowDownRate : 1f) *
-                (DodgeTimer > 0 ? DodgeRate : 1f);
+                                (Slowed ? SlowDownRate : 1f) *
+                                (DodgeTimer > 0 ? DodgeRate : 1f);
             MoveVector.Set(
-               transform.position.x + ((DodgeTimer > 0 ? LastMX : mx) * speedModifier),
-               transform.position.y,
-               transform.position.z + ((DodgeTimer > 0 ? LastMY : my) * speedModifier));
+                transform.position.x + ((DodgeTimer > 0 ? LastMX : mx) * speedModifier),
+                transform.position.y,
+                transform.position.z + ((DodgeTimer > 0 ? LastMY : my) * speedModifier));
             Body.MovePosition(MoveVector);
             Body.velocity = Vector3.zero;
 
@@ -87,9 +89,9 @@ namespace SomethingSpecific.ProtoNinja
             var lx = Controller.GetAxis("LookX");
             var ly = Controller.GetAxis("LookY");
             LookVector.Set(
-               transform.position.x + lx,
-               transform.position.y,
-               transform.position.z + ly);
+                transform.position.x + lx,
+                transform.position.y,
+                transform.position.z + ly);
             transform.LookAt(LookVector);
 
             if (lx != 0 || ly != 0)
@@ -101,7 +103,7 @@ namespace SomethingSpecific.ProtoNinja
             ProcessDodge();
             // Only allow attacking if we're not blocking
             ProcessBlock();
-            if(!Blocking)
+            if (!Blocking)
                 ProcessAttack();
             CheckToggleAttack();
         }
@@ -127,11 +129,9 @@ namespace SomethingSpecific.ProtoNinja
             // Toggle Attack
             if (Controller.GetButtonDown("ToggleAttack"))
             {
-                FireMode = FireMode == ProjectileType.Normal ?
-                        ProjectileType.Fanout :
-                        FireMode == ProjectileType.Fanout ?
-                        ProjectileType.Rapid :
-                        ProjectileType.Normal;
+                FireMode = FireMode == ProjectileType.Normal ? ProjectileType.Fanout :
+                    FireMode == ProjectileType.Fanout ? ProjectileType.Rapid :
+                    ProjectileType.Normal;
             }
         }
 
@@ -140,24 +140,31 @@ namespace SomethingSpecific.ProtoNinja
         /// </summary>
         private void ProcessBlock()
         {
-            if (!Blocking)
+            if (CanBlock && Controller.GetButtonDown("Block"))
             {
-                // Check if we're blocking
-                if (Controller.GetButtonDown("Block"))
-                {
-                    Debug.Log($"Player {Id} Blocking");
-                    BlockTimer = BlockCooldown;
-                    Blocking = true;
-                }
-            }
-            else
-            {
-                BlockTimer -= Time.deltaTime;
-                if(BlockTimer < 0) // This does let you block immediately after again
-                    Blocking = false;
+                StartCoroutine(PerformBlock());
             }
         }
-        
+
+        private IEnumerator PerformBlock()
+        {
+            // Enable the blocking state
+            Debug.Log($"Player {Id} Blocking");
+            Blocking = true;
+            CanBlock = false;
+            
+            // Wait the blocking duration and then disable it
+            yield return new WaitForSeconds(BlockDuration);
+            Debug.Log($"Player {Id} Stopped Blocking");
+            Blocking = false;
+            
+            // Wait the cooldown before block can be used again
+            yield return new WaitForSeconds(BlockCooldown);
+            CanBlock = true;
+            
+            Debug.Log($"Player {Id} Can Block Again");
+        }
+
         private void ProcessAttack()
         {
             // Attack
@@ -202,6 +209,7 @@ namespace SomethingSpecific.ProtoNinja
                             cooldown = 0.125f;
                             break;
                     }
+
                     for (var i = 0; i < shootVectors.Count; i++)
                     {
                         var shootVector = shootVectors[i];
@@ -227,7 +235,7 @@ namespace SomethingSpecific.ProtoNinja
         /// </summary>
         public void ProcessHit(GameObject parent)
         {
-            if(!Blocking)
+            if (!Blocking)
                 Destroy(parent);
         }
 
