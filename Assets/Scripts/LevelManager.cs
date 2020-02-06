@@ -21,6 +21,7 @@ namespace SomethingSpecific.ProtoNinja
         {
             Controllers = Rewired.ReInput.players.AllPlayers;
             Status = GameObject.Find("StatusMessage").GetComponent<Text>();
+            Status.text = "Press 'Start' to begin.";
         }
 
 

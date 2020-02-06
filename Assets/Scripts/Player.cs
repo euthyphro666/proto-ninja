@@ -17,10 +17,10 @@ namespace SomethingSpecific.ProtoNinja
         public float DodgeCooldown = 1f;
 
 
-
         private Vector3 LookVector;
         private Vector3 MoveVector;
         private Rigidbody Body;
+        private Animator Anim;
         private float ShootTimer;
         private float DodgeTimer;
         private float FreezeTimer;
@@ -43,6 +43,7 @@ namespace SomethingSpecific.ProtoNinja
             Body = GetComponent<Rigidbody>();
             LastLY = 1f;
             FireMode = ProjectileType.Normal;
+            Anim = GetComponentInChildren<Animator>();
         }
 
         void Update()
@@ -98,6 +99,7 @@ namespace SomethingSpecific.ProtoNinja
                 if (Controller.GetButton("Dodge"))
                 {
                     DodgeTimer = 0.125f;
+                    Anim.SetTrigger("HasDodged");
                 }
             }
             else
@@ -110,7 +112,6 @@ namespace SomethingSpecific.ProtoNinja
             // Toggle Attack
             if (Controller.GetButtonDown("ToggleAttack"))
             {
-                Debug.Log("Toggled attack");
                 FireMode = FireMode == ProjectileType.Normal ?
                         ProjectileType.Fanout :
                         FireMode == ProjectileType.Fanout ?
@@ -125,6 +126,7 @@ namespace SomethingSpecific.ProtoNinja
             {
                 if (Controller.GetAxis("RangedAttack") > 0)
                 {
+                    Anim.SetTrigger("HasThrown");
                     var shootVectors = new List<Vector3>();
                     var cooldown = 0f;
                     switch (FireMode)
