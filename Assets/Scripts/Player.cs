@@ -85,10 +85,15 @@ namespace SomethingSpecific.ProtoNinja
             if (!Blocking)
             {
                 Health -= damage;
-                // Destroy(parent);
             }
         }
 
+        // Destroy the player GameObject
+        public void DestroyPlayer()
+        {
+            Destroy(gameObject);
+        }
+        
         public void NormalSpeed()
         {
             Slowed = false;
