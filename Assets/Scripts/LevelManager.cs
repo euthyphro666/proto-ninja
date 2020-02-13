@@ -34,13 +34,11 @@ namespace SomethingSpecific.ProtoNinja
 
         private IEnumerator BeginCountdown(int countdownStartTime)
         {
-            Hud.InitPlayerInfo(PlayerCount);
             for (var i = 0; i < countdownStartTime; i++)
             {
                 Status.text = $"{Mathf.RoundToInt(countdownStartTime - i)}!";
                 yield return new WaitForSeconds(1);
             }
-
             ActiveGame = true;
             Status.text = "";
             SpawnPlayers();
@@ -59,6 +57,10 @@ namespace SomethingSpecific.ProtoNinja
                 player.Id = i;
                 player.UpdateHealthEvent += OnUpdatePlayerHealth;
             }
+
+            // Grab transforms and pass them to the UI
+            var playerTransforms = GameObject.FindGameObjectsWithTag("Player");
+            Hud.InitPlayerInfo(playerTransforms);
         }
 
         void OnUpdatePlayerHealth(object sender, TypedEventArgs<float> args)
@@ -66,7 +68,25 @@ namespace SomethingSpecific.ProtoNinja
             if (sender is Player player)
             {
                 var percent = (int)(args.Value / player.MaxHealth * 100);
-                Hud.GetPlayerInfo(player.Id).SetHealthPercent(percent);
+                Hud.GetPlayerInfo(player.Id).SetHealth(percent);
+            }
+        }
+
+        void OnUpdatePlayerBlock(object sender, TypedEventArgs<float> args)
+        {
+            if (sender is Player player)
+            {
+                var percent = (int)(args.Value / player.MaxHealth * 100);
+                Hud.GetPlayerInfo(player.Id).SetBlock(percent);
+            }
+        }
+
+        void OnUpdatePlayerDash(object sender, TypedEventArgs<float> args)
+        {
+            if (sender is Player player)
+            {
+                var percent = (int)(args.Value / player.MaxHealth * 100);
+                Hud.GetPlayerInfo(player.Id).SetDash(percent);
             }
         }
 
