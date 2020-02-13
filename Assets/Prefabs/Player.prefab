@@ -1,5 +1,17 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &2125803258101054834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3835916517468991948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be9517dd917a8564e87c43c39dbe8849, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4558794306430359503
 GameObject:
   m_ObjectHideFlags: 0
@@ -46,6 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a897c7c4bc21a64cbed07c3d466764b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DebugToggleShooting: 0
   Id: 0
   Speed: 15
   ProjectilePrefab: {fileID: 2599627610017023324, guid: 70fc598423509e7458d3aba86c6da6c6,
@@ -57,7 +70,7 @@ MonoBehaviour:
   DodgeDuration: 0.125
   BlockCooldown: 1
   BlockDuration: 1
-  DebugToggleShooting: 0
+  MaxHealth: 100
 --- !u!54 &4558794306430359497
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -99,11 +112,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ninja
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: 03dbde422c893ce40a4a54de2ca394ec,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 50c0c727a0f022f4dbd00c868e2897ae, type: 2}
     - target: {fileID: -4216859302048453862, guid: 03dbde422c893ce40a4a54de2ca394ec,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -174,8 +182,19 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.25
       objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: 03dbde422c893ce40a4a54de2ca394ec,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 50c0c727a0f022f4dbd00c868e2897ae, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 03dbde422c893ce40a4a54de2ca394ec, type: 3}
+--- !u!1 &3835916517468991948 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 03dbde422c893ce40a4a54de2ca394ec,
+    type: 3}
+  m_PrefabInstance: {fileID: 5051355058860828869}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &243388337050354655 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 03dbde422c893ce40a4a54de2ca394ec,
