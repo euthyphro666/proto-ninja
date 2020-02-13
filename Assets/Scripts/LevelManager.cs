@@ -12,7 +12,7 @@ namespace SomethingSpecific.ProtoNinja
     {
         public GameObject PlayerPrefab;
         public int PlayerCount = 1;
-        public int NewGameCountdownTime = 3;
+        public int NewGameCountdownTime = 1;
         private bool ActiveGame = false;
 
         private IList<Rewired.Player> Controllers;
@@ -34,6 +34,7 @@ namespace SomethingSpecific.ProtoNinja
 
         private IEnumerator BeginCountdown(int countdownStartTime)
         {
+            Hud.InitPlayerInfo(PlayerCount);
             for (var i = 0; i < countdownStartTime; i++)
             {
                 Status.text = $"{Mathf.RoundToInt(countdownStartTime - i)}!";
@@ -43,7 +44,6 @@ namespace SomethingSpecific.ProtoNinja
             ActiveGame = true;
             Status.text = "";
             SpawnPlayers();
-            Hud.InitPlayerInfo(PlayerCount);
         }
 
         void SpawnPlayers()

@@ -59,10 +59,14 @@ namespace SomethingSpecific.ProtoNinja
             }
             private set
             {
-                if (_Health != value)
+                if (_Health != value && _Health > 0)
                 {
                     _Health = value;
                     UpdateHealthEvent?.Invoke(this, new TypedEventArgs<float>(_Health));
+                    if (_Health <= 0)
+                    {
+                        Anim.SetBool("IsDead", true);
+                    }
                 }
             }
         }
@@ -76,11 +80,11 @@ namespace SomethingSpecific.ProtoNinja
         /// <summary>
         /// Handles the player being hit
         /// </summary>
-        public void ProcessHit(GameObject parent)
+        public void ProcessHit(GameObject parent, float damage)
         {
             if (!Blocking)
             {
-
+                Health -= damage;
                 // Destroy(parent);
             }
         }
@@ -106,7 +110,7 @@ namespace SomethingSpecific.ProtoNinja
         {
             Controller = ReInput.players.GetPlayer(Id);
             ShootTimer = 0;
-            Health = MaxHealth;
+            _Health = MaxHealth;
             LookVector = new Vector3();
             MoveVector = new Vector3();
             Body = GetComponent<Rigidbody>();
