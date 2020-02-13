@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
+using SomethingSpecific.ProtoNinja.Events;
 
 namespace SomethingSpecific.ProtoNinja
 {
@@ -13,6 +14,7 @@ namespace SomethingSpecific.ProtoNinja
         public int PlayerCount = 1;
         public int NewGameCountdownTime = 3;
         private bool ActiveGame = false;
+
         private IList<Rewired.Player> Controllers;
         private Text Status;
         private HudManager Hud;
@@ -55,6 +57,16 @@ namespace SomethingSpecific.ProtoNinja
                 var playerObject = GameObject.Instantiate(PlayerPrefab, pos, Quaternion.identity, playersParent.transform);
                 var player = playerObject.GetComponent<Player>();
                 player.Id = i;
+                player.UpdateHealthEvent += OnUpdatePlayerHealth;
+            }
+        }
+
+        void OnUpdatePlayerHealth(object sender, TypedEventArgs<float> args)
+        {
+            if (sender is Player player)
+            {
+                var percent = (int)(args.Value / player.MaxHealth * 100);
+                Hud.GetPlayerInfo(player.Id).SetHealthPercent(percent);
             }
         }
 

@@ -1,12 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
+using SomethingSpecific.ProtoNinja.Events;
 
 namespace SomethingSpecific.ProtoNinja
 {
     public class Player : MonoBehaviour
     {
+
+        #region Debug
+        [SerializeField] private bool DebugToggleShooting;
+        #endregion
+
+        #region Public Fields
         public int Id = 0;
         public float Speed = 5f;
         public GameObject ProjectilePrefab;
@@ -18,14 +26,16 @@ namespace SomethingSpecific.ProtoNinja
         public float BlockCooldown = 1f;
         public float BlockDuration = 1f;
         public float MaxHealth = 100f;
+        #endregion
 
-        [SerializeField] private bool DebugToggleShooting;
-
+        #region Private Fields
+        private Rewired.Player Controller;
+        private ProjectileType FireMode;
         private Vector3 LookVector;
         private Vector3 MoveVector;
         private Rigidbody Body;
         private Animator Anim;
-        private float Health;
+
         private float ShootTimer;
         private float FreezeTimer;
         private bool Blocking;
@@ -37,10 +47,61 @@ namespace SomethingSpecific.ProtoNinja
         private float LastLY;
         private float LastMX;
         private float LastMY;
+        #endregion
 
-        private Rewired.Player Controller;
-        private ProjectileType FireMode;
+        #region Props
+        private float _Health;
+        public float Health
+        {
+            get
+            {
+                return _Health;
+            }
+            private set
+            {
+                if (_Health != value)
+                {
+                    _Health = value;
+                    UpdateHealthEvent?.Invoke(this, new TypedEventArgs<float>(_Health));
+                }
+            }
+        }
+        #endregion
 
+        #region Events
+        public event EventHandler<TypedEventArgs<float>> UpdateHealthEvent;
+        #endregion
+
+        #region Public Functions
+        /// <summary>
+        /// Handles the player being hit
+        /// </summary>
+        public void ProcessHit(GameObject parent)
+        {
+            if (!Blocking)
+            {
+
+                // Destroy(parent);
+            }
+        }
+
+        public void NormalSpeed()
+        {
+            Slowed = false;
+        }
+
+        public void SlowDown()
+        {
+            Slowed = true;
+        }
+
+        public void Freeze(float time)
+        {
+            FreezeTimer = time;
+        }
+        #endregion
+
+        #region Private Functions
         private void Start()
         {
             Controller = ReInput.players.GetPlayer(Id);
@@ -134,6 +195,7 @@ namespace SomethingSpecific.ProtoNinja
                 StartCoroutine(PerformDodge());
             }
         }
+
 
         private IEnumerator PerformDodge()
         {
@@ -257,29 +319,7 @@ namespace SomethingSpecific.ProtoNinja
                 ShootTimer -= Time.deltaTime;
             }
         }
+        #endregion
 
-        /// <summary>
-        /// Handles the player being hit
-        /// </summary>
-        public void ProcessHit(GameObject parent)
-        {
-            if (!Blocking)
-                Destroy(parent);
-        }
-
-        public void NormalSpeed()
-        {
-            Slowed = false;
-        }
-
-        public void SlowDown()
-        {
-            Slowed = true;
-        }
-
-        public void Freeze(float time)
-        {
-            FreezeTimer = time;
-        }
     }
 }

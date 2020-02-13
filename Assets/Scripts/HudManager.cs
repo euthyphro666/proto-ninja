@@ -25,6 +25,11 @@ public class HudManager : MonoBehaviour
         }
     }
 
+    public PlayerInfo GetPlayerInfo(int id)
+    {
+        return PlayerInfos[id];
+    }
+
     public void Cleanup()
     {
         //TODO

@@ -16,7 +16,7 @@ public class Wasp : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     void Update()
@@ -25,15 +25,16 @@ public class Wasp : MonoBehaviour
 
         if (Vector3.Distance(transform.position, Player.position) >= MinDist)
         {
-            transform.Translate(transform.forward * Movespeed * Time.deltaTime);
+            Debug.DrawRay(transform.position, transform.forward * Movespeed, Color.magenta, Time.deltaTime);
+            transform.Translate(transform.forward * Movespeed * Time.deltaTime, Space.World);
 
 
-            if(Vector3.Distance(transform.position, transform.position) <= MaxDist)
+            if (Vector3.Distance(transform.position, transform.position) <= MaxDist)
             {
 
             }
         }
 
-        
+
     }
 }

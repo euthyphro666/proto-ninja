@@ -7,12 +7,13 @@ namespace SomethingSpecific.ProtoNinja
         Fanout,
         Rapid
     }
-    
+
     public class Projectile : MonoBehaviour
     {
         public int Owner;
         public Vector3 Delta;
         public float RotationSpeed = 5f;
+        public float Damage = 10f;
 
         private float LifeTime = 2f;
         private float LifeTimer;
@@ -32,11 +33,11 @@ namespace SomethingSpecific.ProtoNinja
                 comp is Player player)
             {
                 if (player.Id == Owner) return;
-                
+
                 Debug.Log("Hit!");
                 Destroy(gameObject);
-                
-                // could add a damage value here later if we want
+
+                // Could add a damage value here later if we want
                 player.ProcessHit(other.gameObject);
             }
             else
