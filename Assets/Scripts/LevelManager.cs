@@ -56,11 +56,22 @@ namespace SomethingSpecific.ProtoNinja
                 var player = playerObject.GetComponent<Player>();
                 player.Id = i;
                 player.UpdateHealthEvent += OnUpdatePlayerHealth;
+                // player.UpdateBockEvent += OnUpdatePlayerBlock;
+                // player.UpdateDashEvent += OnUpdatePlayerDash;
+                // player.UpdatePowerupEvent += OnUpdatePlayerPowerup;
             }
 
             // Grab transforms and pass them to the UI
             var playerTransforms = GameObject.FindGameObjectsWithTag("Player");
             Hud.InitPlayerInfo(playerTransforms);
+        }
+
+        void OnUpdatePlayerPowerup(object sender, TypedEventArgs<Sprite> args)
+        {
+            if (sender is Player player)
+            {
+                Hud.GetPlayerInfo(player.Id).SetPowerup(args.Value);
+            }
         }
 
         void OnUpdatePlayerHealth(object sender, TypedEventArgs<int> args)

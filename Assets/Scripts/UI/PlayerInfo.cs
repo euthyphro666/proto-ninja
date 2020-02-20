@@ -13,6 +13,7 @@ public class PlayerInfo : MonoBehaviour
     private RectTransform Fixed;
     private RectTransform Fluid;
     private Image[] Health;
+    private Image Powerup;
     private RawImage Block;
     private RawImage Dash;
 
@@ -44,6 +45,11 @@ public class PlayerInfo : MonoBehaviour
         Title.text = $"Player {id}";
         Fixed.SetX(50 + ((id - 1) * 225));
         Fixed.SetY(-25);
+    }
+
+    public void SetPowerup(Sprite icon)
+    {
+        Powerup.sprite = icon;
     }
 
     /// <summary>
