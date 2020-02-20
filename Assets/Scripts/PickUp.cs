@@ -1,17 +1,17 @@
 ﻿using SomethingSpecific.ProtoNinja;
 using UnityEngine;
 
-public class PickUp : MonoBehaviour
+public class Pickup : MonoBehaviour
 {
     [SerializeField]
-    private GameObject powerUpPrefab;
+    private GameObject powerupPrefab;
     
     [SerializeField]
-    private Sprite powerUpIcon;
+    private Sprite powerupIcon;
     
     void Start()
     {
-        if(powerUpPrefab == null) Debug.LogError("PickUp is missing the GameObject prefab to instantiate on use.");
+        if(powerupPrefab == null) Debug.LogError("PickUp is missing the GameObject prefab to instantiate on use.");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -22,8 +22,7 @@ public class PickUp : MonoBehaviour
             Debug.Log($"PowerUp collected by {player.Id}!");
             Destroy(gameObject);
 
-            // Could add a damage value here later if we want
-            player.ProcessPickUp(powerUpPrefab, powerUpIcon);
+            player.ProcessPickup(powerupPrefab, powerupIcon);
         }
         else
         {

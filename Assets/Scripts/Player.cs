@@ -53,10 +53,7 @@ namespace SomethingSpecific.ProtoNinja
         private int _Health;
         public int Health
         {
-            get
-            {
-                return _Health;
-            }
+            get => _Health;
             private set
             {
                 if (_Health != value && _Health > 0)
@@ -73,10 +70,7 @@ namespace SomethingSpecific.ProtoNinja
 
         private Sprite PowerupIcon
         {
-            set
-            {
-                UpdatePowerupEvent?.Invoke(this, new TypedEventArgs<Sprite>(value));
-            }
+            set => UpdatePowerupEvent?.Invoke(this, new TypedEventArgs<Sprite>(value));
         }
         #endregion
 
@@ -99,7 +93,7 @@ namespace SomethingSpecific.ProtoNinja
             }
         }
 
-        public void ProcessPowerup(GameObject powerupPrefab, Sprite powerupIcon)
+        public void ProcessPickup(GameObject powerupPrefab, Sprite powerupIcon)
         {
             PowerupIcon = powerupIcon;
             // TODO powerup
@@ -221,7 +215,6 @@ namespace SomethingSpecific.ProtoNinja
                 StartCoroutine(PerformDodge());
             }
         }
-
 
         private IEnumerator PerformDodge()
         {
