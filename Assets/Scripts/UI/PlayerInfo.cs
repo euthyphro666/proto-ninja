@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using SomethingSpecific.ProtoNinja;
 
-public class UIPlayerInfo : MonoBehaviour
+public class PlayerInfo : MonoBehaviour
 {
     private Text Title;
     private GameObject Target;
