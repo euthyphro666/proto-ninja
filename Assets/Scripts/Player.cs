@@ -212,16 +212,20 @@ namespace SomethingSpecific.ProtoNinja
 
         private void ProcessPowerup()
         {
-            if (activePowerup)
+            if (controller.GetButtonDown("Powerup"))
             {
-                var powerup = Instantiate(activePowerup, transform);
-                powerup.GetComponent<IPowerup>().OwningPlayer = this;
-                activePowerup = null;
+                Debug.Log("Powerup");
+                if (activePowerup)
+                {
+                    var powerup = Instantiate(activePowerup, transform);
+                    powerup.GetComponent<IPowerup>().OwningPlayer = this;
+                    activePowerup = null;
+                }
+                else
+                    Debug.LogWarning($"Unable to instantiate and use powerup for Player {Id}");
             }
-            else
-                Debug.LogWarning($"Unable to instantiate and use powerup for Player {Id}");
         }
-        
+
         private void ProcessDodge()
         {
             if (canDodge && controller.GetButton("Dodge"))
@@ -247,15 +251,16 @@ namespace SomethingSpecific.ProtoNinja
             Debug.Log($"Player {Id} Can Dodge Again");
         }
 
+        // TODO Remove this entirely
         private void CheckToggleAttack()
         {
             // Toggle Attack
-            if (controller.GetButtonDown("ToggleAttack"))
-            {
-                fireMode = fireMode == ProjectileType.Normal ? ProjectileType.Fanout :
-                    fireMode == ProjectileType.Fanout ? ProjectileType.Rapid :
-                    ProjectileType.Normal;
-            }
+            // if (controller.GetButtonDown("ToggleAttack"))
+            // {
+            //     fireMode = fireMode == ProjectileType.Normal ? ProjectileType.Fanout :
+            //         fireMode == ProjectileType.Fanout ? ProjectileType.Rapid :
+            //         ProjectileType.Normal;
+            // }
         }
 
         /// <summary>

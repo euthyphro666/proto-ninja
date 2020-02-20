@@ -366,9 +366,9 @@ MonoBehaviour:
       _userAssignable: 1
       _categoryId: 0
     - _id: 13
-      _name: ToggleAttack
+      _name: Powerup
       _type: 1
-      _descriptiveName: ToggleAttack
+      _descriptiveName: Powerup
       _positiveDescriptiveName: 
       _negativeDescriptiveName: 
       _behaviorId: 0
