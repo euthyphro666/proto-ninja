@@ -70,10 +70,21 @@ namespace SomethingSpecific.ProtoNinja
                 }
             }
         }
+
+        private Sprite PowerupIcon
+        {
+            set
+            {
+                UpdatePowerupEvent?.Invoke(this, new TypedEventArgs<Sprite>(value));
+            }
+        }
         #endregion
 
         #region Events
         public event EventHandler<TypedEventArgs<int>> UpdateHealthEvent;
+        public event EventHandler<TypedEventArgs<int>> UpdateDashEvent;
+        public event EventHandler<TypedEventArgs<int>> UpdateBlockEvent;
+        public event EventHandler<TypedEventArgs<Sprite>> UpdatePowerupEvent;
         #endregion
 
         #region Public Functions
