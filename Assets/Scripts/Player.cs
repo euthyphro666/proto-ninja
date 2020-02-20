@@ -96,7 +96,11 @@ namespace SomethingSpecific.ProtoNinja
         public void ProcessPickup(GameObject powerupPrefab, Sprite powerupIcon)
         {
             PowerupIcon = powerupIcon;
-            // TODO powerup
+
+            if(powerupPrefab)
+                Instantiate(powerupPrefab, transform);
+            else
+                Debug.LogWarning($"Unable to instantiate powerup for Player {Id}");
         }
 
         // Destroy the player GameObject
