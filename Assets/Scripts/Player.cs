@@ -25,7 +25,7 @@ namespace SomethingSpecific.ProtoNinja
         public float DodgeDuration = 0.125f;
         public float BlockCooldown = 1f;
         public float BlockDuration = 1f;
-        public float MaxHealth = 100f;
+        public int MaxHealth = 5;
         #endregion
 
         #region Private Fields
@@ -50,8 +50,8 @@ namespace SomethingSpecific.ProtoNinja
         #endregion
 
         #region Props
-        private float _Health;
-        public float Health
+        private int _Health;
+        public int Health
         {
             get
             {
@@ -62,7 +62,7 @@ namespace SomethingSpecific.ProtoNinja
                 if (_Health != value && _Health > 0)
                 {
                     _Health = value;
-                    UpdateHealthEvent?.Invoke(this, new TypedEventArgs<float>(_Health));
+                    UpdateHealthEvent?.Invoke(this, new TypedEventArgs<int>(_Health));
                     if (_Health <= 0)
                     {
                         Anim.SetBool("IsDead", true);
@@ -73,14 +73,14 @@ namespace SomethingSpecific.ProtoNinja
         #endregion
 
         #region Events
-        public event EventHandler<TypedEventArgs<float>> UpdateHealthEvent;
+        public event EventHandler<TypedEventArgs<int>> UpdateHealthEvent;
         #endregion
 
         #region Public Functions
         /// <summary>
         /// Handles the player being hit
         /// </summary>
-        public void ProcessHit(GameObject parent, float damage)
+        public void ProcessHit(GameObject parent, int damage)
         {
             if (!Blocking)
             {
@@ -93,7 +93,7 @@ namespace SomethingSpecific.ProtoNinja
         {
             Destroy(gameObject);
         }
-        
+
         public void NormalSpeed()
         {
             Slowed = false;

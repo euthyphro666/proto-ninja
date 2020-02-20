@@ -70,7 +70,7 @@ MonoBehaviour:
   DodgeDuration: 0.125
   BlockCooldown: 1
   BlockDuration: 1
-  MaxHealth: 100
+  MaxHealth: 5
 --- !u!54 &4558794306430359497
 Rigidbody:
   m_ObjectHideFlags: 0

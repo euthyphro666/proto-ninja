@@ -13,7 +13,7 @@ namespace SomethingSpecific.ProtoNinja
         public int Owner;
         public Vector3 Delta;
         public float RotationSpeed = 5f;
-        public float Damage = 10f;
+        public int Damage = 1;
 
         private float LifeTime = 2f;
         private float LifeTimer;

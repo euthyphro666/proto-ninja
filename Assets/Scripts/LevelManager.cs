@@ -63,12 +63,12 @@ namespace SomethingSpecific.ProtoNinja
             Hud.InitPlayerInfo(playerTransforms);
         }
 
-        void OnUpdatePlayerHealth(object sender, TypedEventArgs<float> args)
+        void OnUpdatePlayerHealth(object sender, TypedEventArgs<int> args)
         {
             if (sender is Player player)
             {
-                var percent = (int)(args.Value / player.MaxHealth * 100);
-                Hud.GetPlayerInfo(player.Id).SetHealth(percent);
+                // var percent = (int)(args.Value / player.MaxHealth * 100);
+                Hud.GetPlayerInfo(player.Id).SetHealth(args.Value);
             }
         }
 
