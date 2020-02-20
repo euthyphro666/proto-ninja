@@ -29,6 +29,7 @@ namespace SomethingSpecific.ProtoNinja
         #endregion
 
         #region Private Fields
+        private GameObject activePowerup;
         private Rewired.Player controller;
         private ProjectileType fireMode;
         private Vector3 lookVector;
@@ -96,11 +97,7 @@ namespace SomethingSpecific.ProtoNinja
         public void ProcessPickup(GameObject powerupPrefab, Sprite powerupIcon)
         {
             PowerupIcon = powerupIcon;
-
-            if(powerupPrefab)
-                Instantiate(powerupPrefab, transform);
-            else
-                Debug.LogWarning($"Unable to instantiate powerup for Player {Id}");
+            activePowerup = powerupPrefab;
         }
 
         // Destroy the player GameObject
