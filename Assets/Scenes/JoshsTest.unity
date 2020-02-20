@@ -35748,7 +35748,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 449aff08950ed784d96ea12885fe49a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerupPrefab: {fileID: 0}
+  powerupPrefab: {fileID: 467972625274868823, guid: 8686acd58c58ce040b81bc72b7bc4f06,
+    type: 3}
   powerupIcon: {fileID: 21300000, guid: 0e0465d6896e8344889895d76ae3b12a, type: 3}
 --- !u!65 &1949208655
 BoxCollider:
@@ -35817,11 +35818,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1949208653}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -26.83, y: -1.66, z: -15.89}
+  m_LocalPosition: {x: -26.6, y: -1.66, z: -19.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1968099724
 GameObject:
@@ -37741,7 +37742,7 @@ PrefabInstance:
     - target: {fileID: 5302035432509815507, guid: 611222b96f9e9c9459a23ecb72bb88bb,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5302035432509815507, guid: 611222b96f9e9c9459a23ecb72bb88bb,
         type: 3}
@@ -37758,6 +37759,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1991303091, guid: 611222b96f9e9c9459a23ecb72bb88bb, type: 3}
+      propertyPath: powerupPrefab
+      value: 
+      objectReference: {fileID: 467972625274868823, guid: 8686acd58c58ce040b81bc72b7bc4f06,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 611222b96f9e9c9459a23ecb72bb88bb, type: 3}
 --- !u!1001 &5585011056524010864
