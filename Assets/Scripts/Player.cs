@@ -91,12 +91,18 @@ namespace SomethingSpecific.ProtoNinja
         /// <summary>
         /// Handles the player being hit
         /// </summary>
-        public void ProcessHit(GameObject parent, int damage)
+        public void ProcessHit(int damage)
         {
             if (!Blocking)
             {
                 Health -= damage;
             }
+        }
+
+        public void ProcessPowerup(GameObject powerupPrefab, Sprite powerupIcon)
+        {
+            PowerupIcon = powerupIcon;
+            // TODO powerup
         }
 
         // Destroy the player GameObject
