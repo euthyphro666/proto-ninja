@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using SomethingSpecific.ProtoNinja;
+﻿using SomethingSpecific.ProtoNinja;
 using UnityEngine;
 
 public class PickUp : MonoBehaviour
@@ -8,17 +6,14 @@ public class PickUp : MonoBehaviour
     [SerializeField]
     private GameObject powerUpPrefab;
     
+    [SerializeField]
+    private Sprite powerUpIcon;
+    
     void Start()
     {
-        if(powerUpPrefab == null) Debug.LogError("PickUp script is missing its prefab!");
+        if(powerUpPrefab == null) Debug.LogError("PickUp is missing the GameObject prefab to instantiate on use.");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(typeof(Player), out var comp) &&
@@ -28,7 +23,7 @@ public class PickUp : MonoBehaviour
             Destroy(gameObject);
 
             // Could add a damage value here later if we want
-            player.ProcessPickUp(other.gameObject, powerUpPrefab);
+            player.ProcessPickUp(other.gameObject, powerUpPrefab, powerUpIcon);
         }
         else
         {
