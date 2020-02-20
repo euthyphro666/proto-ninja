@@ -18,6 +18,7 @@ namespace SomethingSpecific.ProtoNinja
         private IList<Rewired.Player> Controllers;
         private Text Status;
         private HudManager Hud;
+        private bool canStartNewGame;
 
         void Start()
         {
@@ -25,11 +26,16 @@ namespace SomethingSpecific.ProtoNinja
             Controllers = Rewired.ReInput.players.AllPlayers;
             Status = GameObject.Find("StatusMessage").GetComponent<Text>();
             Status.text = "Press 'Start' to begin.";
+            canStartNewGame = true;
         }
 
         void BeginLevel()
         {
-            StartCoroutine(BeginCountdown(NewGameCountdownTime));
+            if (canStartNewGame)
+            {
+                canStartNewGame = false;   
+                StartCoroutine(BeginCountdown(NewGameCountdownTime));
+            }
         }
 
         private IEnumerator BeginCountdown(int countdownStartTime)
@@ -39,6 +45,7 @@ namespace SomethingSpecific.ProtoNinja
                 Status.text = $"{Mathf.RoundToInt(countdownStartTime - i)}!";
                 yield return new WaitForSeconds(1);
             }
+            
             ActiveGame = true;
             Status.text = "";
             SpawnPlayers();
@@ -106,6 +113,7 @@ namespace SomethingSpecific.ProtoNinja
             ActiveGame = false;
             Status.text = $"Player {winner.Id} Won!\nPress 'Start' to Begin Again!";
             Destroy(winner.gameObject);
+            canStartNewGame = true;
         }
 
         void Update()

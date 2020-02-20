@@ -19,7 +19,7 @@ public class Pickup : MonoBehaviour
         if (other.TryGetComponent(typeof(Player), out var comp) &&
             comp is Player player)
         {
-            Debug.Log($"PowerUp collected by {player.Id}!");
+            Debug.Log($"PowerUp collected by Player {player.Id}!");
             Destroy(gameObject);
 
             player.ProcessPickup(powerupPrefab, powerupIcon);
