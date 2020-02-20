@@ -214,12 +214,12 @@ namespace SomethingSpecific.ProtoNinja
         {
             if (controller.GetButtonDown("Powerup"))
             {
-                Debug.Log("Powerup");
                 if (activePowerup)
                 {
-                    var powerup = Instantiate(activePowerup, transform);
+                    var powerup = Instantiate(activePowerup, transform.position, Quaternion.identity);
                     powerup.GetComponent<IPowerup>().OwningPlayer = this;
                     activePowerup = null;
+                    PowerupIcon = null;
                 }
                 else
                     Debug.LogWarning($"Unable to instantiate and use powerup for Player {Id}");
