@@ -10,12 +10,16 @@ public class SmokeGrenade : MonoBehaviour, IPowerup
     [SerializeField] private float smokeDurationInSeconds = 3;
 
     private float createTime;
+<<<<<<< HEAD
     private float currentTime;
+=======
+>>>>>>> master
     private GameObject smokeEffect;
     
     void Start()
     {
         // start the smoke animation
+<<<<<<< HEAD
         smokeEffect = Instantiate(smokeEffectPrefab, gameObject.transform.position + new Vector3(0, 3, 0), Quaternion.identity);
         createTime = currentTime = Time.deltaTime;
     }
@@ -27,6 +31,17 @@ public class SmokeGrenade : MonoBehaviour, IPowerup
         if (currentTime - createTime > smokeDurationInSeconds)
         {
             Debug.Log("destroying smoke");
+=======
+        smokeEffect = Instantiate(smokeEffectPrefab, gameObject.transform.position, Quaternion.identity);
+        createTime = Time.deltaTime;
+    }
+
+    private void Update()
+    {
+        var now = Time.deltaTime;
+        if (now - createTime > smokeDurationInSeconds)
+        {
+>>>>>>> master
             Destroy(smokeEffect);
             Destroy(gameObject);
         }
