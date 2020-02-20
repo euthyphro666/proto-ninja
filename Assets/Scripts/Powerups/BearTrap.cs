@@ -8,13 +8,24 @@ namespace SomethingSpecific.ProtoNinja
     {
         public Player OwningPlayer { get; set; }
         public float FreezeTime = 0.5f;
+
+        private bool TrapSet;
+
+        private void OnTriggerExit(Collider other)
+        {
+            TrapSet = true;
+        }
+
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(typeof(Player), out var comp) &&
-                comp is Player player)
+            if (TrapSet)
             {
-                player.Freeze(FreezeTime);
-                Destroy(gameObject);
+                if (other.TryGetComponent(typeof(Player), out var comp) &&
+                    comp is Player player)
+                {
+                    player.Freeze(FreezeTime);
+                    Destroy(gameObject);
+                }
             }
         }
 
