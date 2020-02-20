@@ -29,7 +29,6 @@ public class PlayerInfo : MonoBehaviour
         var images = GetComponentsInChildren<RawImage>();
         foreach (var image in images)
         {
-            // if (image.name == "HealthBar") Health = image;
             if (image.name == "BlockBar") Block = image;
             if (image.name == "DashBar") Dash = image;
         }
@@ -60,7 +59,6 @@ public class PlayerInfo : MonoBehaviour
                 Health[i].gameObject.SetActive(i < health);
             }
         }
-        // Health.rectTransform.SetRight(100 - percent);
     }
 
     public void SetBlock(int percent)
@@ -76,15 +74,15 @@ public class PlayerInfo : MonoBehaviour
     private Vector2 LastPos;
     public void Update()
     {
-        var pos = WorldToCanvasPosition(Block.canvas, Fluid.parent.transform as RectTransform, Camera.main, Target.transform.position);
-        // var pos = Camera.main.WorldToScreenPoint(Target.transform.position);
-        Debug.Log($"({pos.x}, {pos.y})");
-        if (LastPos != pos)
-        {
-            Fluid.SetX(pos.x);
-            Fluid.SetY(pos.y);
-            LastPos = pos;
-        }
+        // var pos = WorldToCanvasPosition(Block.canvas, Fluid.parent.transform as RectTransform, Camera.main, Target.transform.position);
+        // // var pos = Camera.main.WorldToScreenPoint(Target.transform.position);
+        // Debug.Log($"({pos.x}, {pos.y})");
+        // if (LastPos != pos)
+        // {
+        //     Fluid.SetX(pos.x);
+        //     Fluid.SetY(pos.y);
+        //     LastPos = pos;
+        // }
     }
 
     private Vector2 WorldToCanvasPosition(Canvas canvas, RectTransform canvasRect, Camera camera, Vector3 position)
