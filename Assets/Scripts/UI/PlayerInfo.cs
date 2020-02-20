@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +12,7 @@ public class PlayerInfo : MonoBehaviour
     private GameObject Target;
     private RectTransform Fixed;
     private RectTransform Fluid;
-    private RawImage Health;
+    private RawImage[] Health;
     private RawImage Block;
     private RawImage Dash;
 
@@ -27,10 +29,11 @@ public class PlayerInfo : MonoBehaviour
         var images = GetComponentsInChildren<RawImage>();
         foreach (var image in images)
         {
-            if (image.name == "HealthBar") Health = image;
+            // if (image.name == "HealthBar") Health = image;
             if (image.name == "BlockBar") Block = image;
             if (image.name == "DashBar") Dash = image;
         }
+        // Health = images.Where(i => i.name);
     }
 
     public void Init(int id, GameObject target)
@@ -43,7 +46,7 @@ public class PlayerInfo : MonoBehaviour
 
     public void SetHealth(int percent)
     {
-        Health.rectTransform.SetRight(100 - percent);
+        // Health.rectTransform.SetRight(100 - percent);
     }
 
     public void SetBlock(int percent)
