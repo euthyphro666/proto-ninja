@@ -6,26 +6,26 @@ public class HudManager : MonoBehaviour
 {
     public GameObject PlayerInfoPrefab;
 
-    private PlayerInfo[] PlayerInfos;
+    private UIPlayerInfo[] PlayerInfos;
 
     public void InitPlayerInfo(GameObject[] targets)
     {
         if (PlayerInfos != null) Cleanup();
 
-        PlayerInfos = new PlayerInfo[targets.Length];
+        PlayerInfos = new UIPlayerInfo[targets.Length];
         for (int i = 0; i < targets.Length; i++)
         {
             var obj = GameObject.Instantiate(PlayerInfoPrefab, transform);
             var rect = obj.GetComponent<RectTransform>();
             rect.SetX((10 * (i + 1)) + (100 * i));
 
-            var info = obj.GetComponent<PlayerInfo>();
+            var info = obj.GetComponent<UIPlayerInfo>();
             info.Init(i + 1, targets[i]);
             PlayerInfos[i] = info;
         }
     }
 
-    public PlayerInfo GetPlayerInfo(int id)
+    public UIPlayerInfo GetPlayerInfo(int id)
     {
         return PlayerInfos[id];
     }

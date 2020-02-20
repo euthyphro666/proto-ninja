@@ -11,7 +11,8 @@ public class Pickup : MonoBehaviour
     
     void Start()
     {
-        if(powerupPrefab == null) Debug.LogError("PickUp is missing the GameObject prefab to instantiate on use.");
+        if(powerupPrefab == null) 
+            Debug.LogError("PickUp is missing the GameObject prefab to instantiate on use.");
     }
 
     private void OnTriggerEnter(Collider other)

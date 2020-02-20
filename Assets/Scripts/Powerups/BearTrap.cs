@@ -4,8 +4,9 @@ using UnityEngine;
 
 namespace SomethingSpecific.ProtoNinja
 {
-    public class BearTrap : MonoBehaviour
+    public class BearTrap : MonoBehaviour, IPowerup
     {
+        public Player OwningPlayer { get; set; }
         public float FreezeTime = 0.5f;
         private void OnTriggerEnter(Collider other)
         {
@@ -16,5 +17,6 @@ namespace SomethingSpecific.ProtoNinja
                 Destroy(gameObject);
             }
         }
+
     }
 }

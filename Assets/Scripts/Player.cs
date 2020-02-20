@@ -207,8 +207,21 @@ namespace SomethingSpecific.ProtoNinja
             if (!blocking)
                 ProcessAttack();
             CheckToggleAttack();
+            ProcessPowerup();
         }
 
+        private void ProcessPowerup()
+        {
+            if (activePowerup)
+            {
+                var powerup = Instantiate(activePowerup, transform);
+                powerup.GetComponent<IPowerup>().OwningPlayer = this;
+                activePowerup = null;
+            }
+            else
+                Debug.LogWarning($"Unable to instantiate and use powerup for Player {Id}");
+        }
+        
         private void ProcessDodge()
         {
             if (canDodge && controller.GetButton("Dodge"))
