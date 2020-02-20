@@ -38,7 +38,7 @@ namespace SomethingSpecific.ProtoNinja
                 Destroy(gameObject);
 
                 // Could add a damage value here later if we want
-                player.ProcessHit(other.gameObject, Damage);
+                player.ProcessHit(Damage);
             }
             else
             {
