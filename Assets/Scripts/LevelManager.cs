@@ -33,7 +33,7 @@ namespace SomethingSpecific.ProtoNinja
         {
             if (canStartNewGame)
             {
-                canStartNewGame = false;   
+                canStartNewGame = false;
                 StartCoroutine(BeginCountdown(NewGameCountdownTime));
             }
         }
@@ -45,7 +45,7 @@ namespace SomethingSpecific.ProtoNinja
                 Status.text = $"{Mathf.RoundToInt(countdownStartTime - i)}!";
                 yield return new WaitForSeconds(1);
             }
-            
+
             ActiveGame = true;
             Status.text = "";
             SpawnPlayers();
@@ -63,9 +63,9 @@ namespace SomethingSpecific.ProtoNinja
                 var player = playerObject.GetComponent<Player>();
                 player.Id = i;
                 player.UpdateHealthEvent += OnUpdatePlayerHealth;
-                // player.UpdateBockEvent += OnUpdatePlayerBlock;
-                // player.UpdateDashEvent += OnUpdatePlayerDash;
-                // player.UpdatePowerupEvent += OnUpdatePlayerPowerup;
+                player.UpdateBlockEvent += OnUpdatePlayerBlock;
+                player.UpdateDashEvent += OnUpdatePlayerDash;
+                player.UpdatePowerupEvent += OnUpdatePlayerPowerup;
             }
 
             // Grab transforms and pass them to the UI
@@ -90,7 +90,7 @@ namespace SomethingSpecific.ProtoNinja
             }
         }
 
-        void OnUpdatePlayerBlock(object sender, TypedEventArgs<float> args)
+        void OnUpdatePlayerBlock(object sender, TypedEventArgs<int> args)
         {
             if (sender is Player player)
             {
@@ -99,7 +99,7 @@ namespace SomethingSpecific.ProtoNinja
             }
         }
 
-        void OnUpdatePlayerDash(object sender, TypedEventArgs<float> args)
+        void OnUpdatePlayerDash(object sender, TypedEventArgs<int> args)
         {
             if (sender is Player player)
             {

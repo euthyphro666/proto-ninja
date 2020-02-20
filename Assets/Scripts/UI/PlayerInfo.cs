@@ -37,6 +37,8 @@ public class PlayerInfo : MonoBehaviour
             .Where(i => i.name.StartsWith("HP"))
             .OrderBy(i => int.Parse(i.name.Substring(2)))
             .ToArray();
+        Powerup = GetComponentsInChildren<Image>(true)
+            .FirstOrDefault(i => i.name == "Powerup");
     }
 
     public void Init(int id, GameObject target)
@@ -49,6 +51,7 @@ public class PlayerInfo : MonoBehaviour
 
     public void SetPowerup(Sprite icon)
     {
+        Powerup.enabled = true;
         Powerup.sprite = icon;
     }
 
