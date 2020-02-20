@@ -23,7 +23,7 @@ public class PickUp : MonoBehaviour
             Destroy(gameObject);
 
             // Could add a damage value here later if we want
-            player.ProcessPickUp(other.gameObject, powerUpPrefab, powerUpIcon);
+            player.ProcessPickUp(powerUpPrefab, powerUpIcon);
         }
         else
         {
